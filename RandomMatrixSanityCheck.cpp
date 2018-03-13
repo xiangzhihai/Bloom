@@ -49,16 +49,22 @@ TEST(RandomMatrixSanityCheck, SimpleUniformHashingAssumption) {
     //put occurence into a vector
     for (std::pair<int,int> element : M)
     {
+        //std::cout << element.second << std::endl;
         occur.push_back(element.second);
         sum += element.second;
     }
 
-    //then valculate variance
+    /*
+     * then valculate variance 
+     * occurence of 390 and 391 are considered right
+     * because NUM_TEST_CASES / TABLE_SLOTS = 390.625
+     * assume the fluctuation is between 2
+     * which is between 389 and 392 is accepted
+     */
     double mean = (double) sum / occur.size(), var = 0;
-    
     for (double i : occur)
     {
-        var += abs (i - mean) / 2;
+        var += abs(i - mean) < 2 ? 0 : pow(i - mean, 2);
     }
     var /= occur.size();
     EXPECT_NEAR(var, 0, ERROR_THRESHOLD);
