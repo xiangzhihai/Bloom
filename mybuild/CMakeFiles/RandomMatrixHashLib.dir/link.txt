@@ -1,0 +1,2 @@
+/usr/bin/ar qc libRandomMatrixHashLib.a  CMakeFiles/RandomMatrixHashLib.dir/RandomMatrixHash.cpp.o
+/usr/bin/ranlib libRandomMatrixHashLib.a

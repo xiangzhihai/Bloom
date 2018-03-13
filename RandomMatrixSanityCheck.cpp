@@ -1,7 +1,9 @@
 #include "RandomMatrixHash.h"
 #include "gtest/gtest.h"
 #include <iostream>
-
+#include <unordered_map>
+#include <vector>
+#include <math.h> 
 using testing::Test;
 
 #define NUM_TEST_CASES 100000
@@ -30,7 +32,36 @@ TEST(RandomMatrixSanityCheck, EachBitFieldUniformlyGenerated) {
 // Then verify that hashing to each slot in the table is roughly equally
 // likely using EXPECT_NEAR(x, y, threshold) where threshold = ERROR_THRESHOLD
 TEST(RandomMatrixSanityCheck, SimpleUniformHashingAssumption) {
-    EXPECT_NEAR(1, 1, ERROR_THRESHOLD);
+    std::unordered_map<int, int> M;
+    std::vector<int> occur;
+    RandomMatrixHash r(TABLE_SLOTS);
+    int sum = 0;
+    //hash these values
+    for (int i = 0; i < NUM_TEST_CASES; i++)
+    {
+        //first occurence
+        if (M.find(r.Hash(i)) == M.end())
+            M[r.Hash(i)] = 1;
+        else
+            M[r.Hash(i)]++;
+    }
+
+    //put occurence into a vector
+    for (std::pair<int,int> element : M)
+    {
+        occur.push_back(element.second);
+        sum += element.second;
+    }
+
+    //then valculate variance
+    double mean = (double) sum / occur.size(), var = 0;
+    
+    for (double i : occur)
+    {
+        var += abs (i - mean) / 2;
+    }
+    var /= occur.size();
+    EXPECT_NEAR(var, 0, ERROR_THRESHOLD);
 }
 
 int main(int argc, char** argv) {

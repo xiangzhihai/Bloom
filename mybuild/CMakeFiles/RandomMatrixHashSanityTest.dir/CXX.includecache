@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ricky/Desktop/Bloom/RandomMatrixHash.h
+cstddef
+-
+
+/home/ricky/Desktop/Bloom/RandomMatrixSanityCheck.cpp
+RandomMatrixHash.h
+/home/ricky/Desktop/Bloom/RandomMatrixHash.h
+gtest/gtest.h
+/home/ricky/Desktop/Bloom/gtest/gtest.h
+iostream
+-
+unordered_map
+-
+vector
+-
+math.h
+-
+

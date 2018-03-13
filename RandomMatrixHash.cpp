@@ -2,7 +2,8 @@
 #include <limits>
 #include <stdlib.h>
 #include <iostream>
-
+#include <algorithm>
+#include <vector>
 using namespace std;
 //m shoud be 2^n 0 <= n
 RandomMatrixHash::RandomMatrixHash(unsigned int m) 
@@ -14,16 +15,23 @@ RandomMatrixHash::RandomMatrixHash(unsigned int m)
     
     //this can only used in linux which RANDMAX is INT_MAX
     srand(time(NULL));
+    vector<int> r;
+    for (int i = 0; i < row * 16; i++)
+    {
+        r.push_back(0);
+        r.push_back(1);
+    }
+    random_shuffle(r.begin(), r.end());
     HashMatrix = (int*)malloc(row * sizeof(int));
+
+    
     for (int i = 0; i < row; i++)
     {
         int num = 0;
         for (int j = 0; j < 32; j++)
         {
-            
-            int ran = rand() % 2 ? 1 : 0;
-            num |= ran;
             num <<= 1;
+            num |= r[i * 32 + j];
             
         }
         HashMatrix[i] = num;
@@ -77,5 +85,6 @@ int main()
 {
     RandomMatrixHash r(256);
     cout << r.Hash(16) << endl;
+    cout << r.get1ratio() << endl;
 }
 */
