@@ -16,15 +16,26 @@ RandomMatrixHash::RandomMatrixHash(unsigned int m)
     srand(time(NULL));
     HashMatrix = (int*)malloc(row * sizeof(int));
     for (int i = 0; i < row; i++)
-        HashMatrix[i] = rand() * (rand() % 2 ? 1 : -1);
-
+    {
+        int num = 0;
+        for (int j = 0; j < 32; j++)
+        {
+            
+            int ran = rand() % 2 ? 1 : 0;
+            num |= ran;
+            num <<= 1;
+            
+        }
+        HashMatrix[i] = num;
+    }
 }
 
-bool parity(unsigned int x){
-    unsigned int count = 0, i, b = 1;
+bool parity(unsigned int x)
+{
+    unsigned int count = 0, b = 1;
 
-    for(i = 0; i < 32; i++)
-        if( x & (b << i) ) 
+    for(int i = 0; i < 32; i++)
+        if(x & (b << i)) 
             count++;
     
     if(count % 2)
@@ -33,8 +44,26 @@ bool parity(unsigned int x){
     return true;
 }
 
+double RandomMatrixHash::get1ratio() const 
+{
+    int count = 0, b = 1;
+    for (int i = 0; i < row; i++)
+    {
+        int t = HashMatrix[i];
+        for (int j = 0; j < 32; j++)
+        {
+            if (HashMatrix[i] & (b << j))
+            {
+                count++;
+            }  
+        }
+    }
+    return (double) count / (32 * row);
+}
+
 // Use mod 2 matrix multiplication for your hash function.
-size_t RandomMatrixHash::Hash(int key) const {
+size_t RandomMatrixHash::Hash(int key) const 
+{
     int hash = 0;
     for (int i = 0; i < row; i++)
     {
@@ -43,11 +72,10 @@ size_t RandomMatrixHash::Hash(int key) const {
     }
     return hash;
 }
-
-
+/*
 int main()
 {
     RandomMatrixHash r(256);
-    cout << endl << r.Hash(16) << endl;
-
+    cout << r.Hash(16) << endl;
 }
+*/
