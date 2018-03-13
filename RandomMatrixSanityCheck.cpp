@@ -58,14 +58,12 @@ TEST(RandomMatrixSanityCheck, SimpleUniformHashingAssumption) {
      * then valculate variance 
      * occurence of 390 and 391 are considered right
      * because NUM_TEST_CASES / TABLE_SLOTS = 390.625
-     * assume the fluctuation is between 2
-     * which is between 389 and 392 is accepted
+     * assume the fluctuation is between 2,
+     * which between 389 and 392 can be accepted
      */
     double mean = (double) sum / occur.size(), var = 0;
     for (double i : occur)
-    {
         var += abs(i - mean) < 2 ? 0 : pow(i - mean, 2);
-    }
     var /= occur.size();
     EXPECT_NEAR(var, 0, ERROR_THRESHOLD);
 }

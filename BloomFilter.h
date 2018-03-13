@@ -1,6 +1,7 @@
 #ifndef _BLOOM_FILTER_H_
 #define _BLOOM_FILTER_H_
-
+#include <cstddef>
+#include <set>
 class BloomFilter {
  public:
   BloomFilter(size_t bits, size_t expectedSetSize);
